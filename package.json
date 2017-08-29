@@ -1,0 +1,16 @@
+{
+  "name": "nodekb",
+  "version": "2.0.0",
+  "description": "simple express app",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "author": "Jason Wang",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "mongoose": "^4.11.7"
+  }
+}
