@@ -37,6 +37,14 @@ app.get('/', function(req, res) {
 });
 
 
+// Get Single Article
+app.get('/article/:id', function(req, res){
+  Article.findById(req.params.id, function(err, article){
+    console.log(article);
+    return;
+  });
+});
+
 // Add Route
 app.get('/articles/add', function(req, res) {
   res.send('add articles');
