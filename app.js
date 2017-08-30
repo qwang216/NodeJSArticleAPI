@@ -20,6 +20,12 @@ db.once('open', function() {
   console.log('Connected to mongoDB');
 });
 
+// Start Server
+const port = process.env.PORT || 3000
+app.listen(port, function() {
+  console.log('Server started on port:', port);
+});
+
 // Check for DB errors
 db.on('error', function() {
   console.log(err);
@@ -40,8 +46,35 @@ app.get('/', function(req, res) {
 // Get Single Article
 app.get('/article/:id', function(req, res){
   Article.findById(req.params.id, function(err, article){
-    console.log(article);
-    return;
+    res.json(article);
+  });
+});
+
+// // Edit Single Article
+// app.get('/article/edit/:id', function(req, res){
+//   Article.findById(req.params.id, function(err, article){
+//     res.json(article);
+//   });
+// });
+
+// Update submit POST Route
+app.post('/articles/edit/:id', function(req, res){
+  let article = {};
+  article.title = req.body.title;
+  article.author = req.body.author;
+  article.body = req.body.body;
+
+  let queryParam = {_id: req.params.id };
+
+  Article.update(queryParam, article, function(err){
+    if (err) {
+      console.log(err);
+      return;
+    } else {
+      res.json({
+        "status": 200
+      });
+    }
   });
 });
 
@@ -67,8 +100,13 @@ app.post('/articles/add', function(req, res) {
   });
 });
 
-// Start Server
-const port = process.env.PORT || 3000
-app.listen(port, function() {
-  console.log('Server started on port:', port);
+app.delete('/article/:id', function(req, res) {
+  let query = {_id: req.params.id};
+  Article.remove(query, function(err){
+    if (err) {
+      console.log(err);
+    } else {
+      res.send('Success');
+    }
+  });
 });
